@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
+//CTRE imports
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -20,6 +25,15 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  //Opening motor controlers and joystick
+  private final WPI_TalonSRX m_driveRight = new WPI_TalonSRX(0);
+  private final WPI_TalonSRX m_driveLeft = new WPI_TalonSRX(1);
+  private final XboxController m_controller = new XboxController(0);
+  private final DifferentialDrive m_drive = new DifferentialDrive(m_driveLeft, m_driveRight);
+  private final Timer timer = new Timer();
+
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -86,7 +100,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    m_drive.arcadeDrive(m_controller.getLeftY(), m_controller.getRightX());
+  }
 
   @Override
   public void testInit() {
