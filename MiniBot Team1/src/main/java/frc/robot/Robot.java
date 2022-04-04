@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
 //CTRE imports
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
@@ -80,12 +79,18 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+      timer.reset();
+      timer.start();
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    while(timer.get() < 2.0){
+      m_drive.arcadeDrive(0.5, 0);
+    }
+  }
 
   @Override
   public void teleopInit() {
